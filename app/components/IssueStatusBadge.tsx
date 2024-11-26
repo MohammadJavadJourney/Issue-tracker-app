@@ -2,10 +2,6 @@ import React from "react";
 import { Badge } from "@radix-ui/themes";
 import { Status } from "@prisma/client";
 
-interface Props {
-  status: Status;
-}
-
 const statusMap: Record<
   Status,
   { label: String; color: "red" | "green" | "violet" }
