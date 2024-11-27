@@ -4,7 +4,7 @@ import { Status } from "@prisma/client";
 
 const statusMap: Record<
   Status,
-  { label: String; color: "red" | "green" | "violet" }
+  { label: string; color: "red" | "green" | "violet" }
 > = {
   OPEN: { label: "Open", color: "red" },
   IN_PROGRESS: { label: "In Progress", color: "violet" },
