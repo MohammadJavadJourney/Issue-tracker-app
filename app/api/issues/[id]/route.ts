@@ -1,4 +1,4 @@
-import { createIssuesSchema } from "@/app/validationSchemas";
+import { IssuesSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,7 +10,7 @@ export async function PATCH(
   const { id } = await params; // Await params to access `id`
 
   const body = await request.json();
-  const validation = createIssuesSchema.safeParse(body);
+  const validation = IssuesSchema.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
