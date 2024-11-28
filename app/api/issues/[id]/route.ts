@@ -4,23 +4,24 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context; // `params` is a Promise; it needs to be awaited
-  const { id } = await params; // Await params to access `id`
+  const { id } = await context.params; // Await `params` to access `id`
 
   const body = await request.json();
   const validation = IssuesSchema.safeParse(body);
 
-  if (!validation.success)
+  if (!validation.success) {
     return NextResponse.json(validation.error.errors, { status: 400 });
+  }
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(id) },
   });
 
-  if (!issue)
+  if (!issue) {
     return NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  }
 
   const updatedIssue = await prisma.issue.update({
     where: { id: issue.id },
@@ -31,4 +32,25 @@ export async function PATCH(
   });
 
   return NextResponse.json(updatedIssue);
+}
+
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
+
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(id) },
+  });
+
+  if (!issue) {
+    return NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  }
+
+  await prisma.issue.delete({
+    where: { id: issue.id },
+  });
+
+  return NextResponse.json({});
 }

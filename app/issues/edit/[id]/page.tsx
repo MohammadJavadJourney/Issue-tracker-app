@@ -1,6 +1,5 @@
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-import IssueFormSkeleton from "./loading";
 import IssueFormClient from "../../_components/IssueFormClient";
 
 interface Props {
