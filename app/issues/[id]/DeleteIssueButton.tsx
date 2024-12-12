@@ -18,6 +18,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
       await axios.delete(`/api/issues/${issueId}`);
       router.push("/issues/list");
       router.refresh();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setError(true);
       setDeleting(false);
